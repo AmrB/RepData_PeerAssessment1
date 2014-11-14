@@ -25,7 +25,6 @@ actvtData<- actvt[complete.cases(actvt),]
 ```
 
 
-
 ## What is mean total number of steps taken per day?
 
 ```{r Hist mean/median of steps/day, echo = TRUE}
@@ -43,6 +42,23 @@ median(stps$steps, na.rm=TRUE)
 
 ## What is the average daily activity pattern?
 
+```{r time series plot, echo = TRUE}
+# Calculating the mean of steps related to each interval:
+mnsteps <- ddply(actvtData, c("interval"), function (x) apply(x[1], 2, mean))
+
+# Creating the panel plot containing a time series plot of the 5-minute interval 
+# and the average number of steps taken, averaged across all days:
+xyplot(mnsteps$steps ~ mnsteps$interval, 
+       type= "l", 
+       ylab="Mean Steps",
+       xlab= "Intervals", 
+       main="Average Daily Activity Pattern",
+       lwd=1.5)
+# get the maximum amount of mean steps (it's 206.1698)       
+max(mnsteps$steps) 
+# get the interval related to the maximum of mean step (it's interval 835):
+mnsteps[mnsteps$steps==max(mnsteps$steps),] 
+```
 
 
 ## Imputing missing values
