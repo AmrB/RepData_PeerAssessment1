@@ -104,3 +104,24 @@ median(newsm$steps) # 10766.19
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r the days of week, echo = TRUE}
+# Adding new column to the dataset "newData" containing the week days'names:
+newData$WD <- weekdays(as.Date(newData$date))
+# Replacing the names of week day with "Weekday" and "Weekend":
+newData$WD[newData$WD == "Friday"] <- "Weekday"
+newData$WD[newData$WD == "Monday"] <- "Weekday"
+newData$WD[newData$WD == "Thursday"] <- "Weekday"
+newData$WD[newData$WD == "Tuesday"] <- "Weekday"
+newData$WD[newData$WD == "Wednesday"] <- "Weekday"
+newData$WD[newData$WD == "Saturday"] <- "Weekend"
+newData$WD[newData$WD == "Sunday"] <- "Weekend"
+table(newData$WD)
+
+#Creating the panel plot containing a time series plot of the 5-min interval
+#and the average number of steps taken, averaged across all 
+#weekday days or weekend days.
+newmnsteps<- ddply(newData, c("interval", "WD"), function(x) apply(x[1], 2, mean))
+xyplot(newmnsteps$steps ~ newmnsteps$interval | newmnsteps$WD, 
+       type="l", ylab="Number of Steps", xlab="Interval",
+       main="Plot of Interval vs. Number of Steps", layout=c(1,2))
+```
