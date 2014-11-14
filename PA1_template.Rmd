@@ -8,7 +8,7 @@ output:
 
 ## Loading and preprocessing the data
 ```{r readingData, echo = TRUE}
-# you need to unzip the data in a sub-directory named "Repro"
+# the csv file needs to be in the working directory
 act<- read.csv("./Repro/activity.csv", header=TRUE, sep=",")
 dim(act)
 names(act)
