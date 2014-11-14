@@ -29,20 +29,16 @@ actvtData<- actvt[complete.cases(actvt),]
 ## What is mean total number of steps taken per day?
 
 ```{r Hist mean/median of steps/day, echo = TRUE}
-# obtaining the total number of steps for each day:
-sm<- ddply(actvtData, c("date"), function (x) apply(x[1], 2, sum)) 
-hist(sm$steps, xlab= "Total Number of Steps/Day",
+# get the total number of steps per day:
+stps<- ddply(actvtData, c("date"), function (x) apply(x[1], 2, sum)) 
+hist(stps$steps, xlab= "Total Number of Steps/Day",
       main="Histogram of the Total Number of Steps Taken Each Day",
       col= "red")
-# obtaining the total number of steps for each day:
-sm<- ddply(actvtData, c("date"), function (x) apply(x[1], 2, sum)) 
-hist(sm$steps, xlab= "Total Number of Steps/Day",
-      main="Histogram of the Total Number of Steps Taken Each Day",
-      col= "red")
-# obtaining the mean of total steps:
-mean(sm$steps, na.rm=TRUE) # 10766.19
-# obtaining the median of total steps:
-median(sm$steps, na.rm=TRUE) # 10765
+
+# get the mean of total steps
+mean(stps$steps, na.rm=TRUE) 
+# get the median of total steps
+median(stps$steps, na.rm=TRUE) 
 ```
 
 ## What is the average daily activity pattern?
