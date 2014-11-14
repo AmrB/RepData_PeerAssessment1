@@ -7,6 +7,21 @@ output:
 
 
 ## Loading and preprocessing the data
+```{r readingData, echo = TRUE}
+# you need to unzip the data in a sub-directory named "Repro"
+act<- read.csv("./Repro/activity.csv", header=TRUE, sep=",")
+dim(act)
+names(act)
+length(unique(act$date)) # there are 61 days in the dataset.
+table(act$date, useNA="ifany") # there are 288 observations related to each day.
+sapply(act[1,], class) # Obtaining the class of each variable.
+
+#changing the class of the variable "steps" to be Numeric:
+act$steps <- as.numeric(act$steps) 
+#changing the class of the variable "interval" to be Numeric:
+act$interval <- as.numeric(act$interval) 
+actData<- act[complete.cases(act),] # new data frame after removing NAs.
+```
 
 
 
