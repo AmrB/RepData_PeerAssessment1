@@ -63,6 +63,44 @@ mnsteps[mnsteps$steps==max(mnsteps$steps),]
 
 ## Imputing missing values
 
+```{r NAs, echo = TRUE}
+sum(is.na(actvt$interval)) # without NA.
+sum(is.na(actvt$date)) # without NA.
+sum(is.na(actvt$steps)) # There are 2304 rows with NAs.
 
+#replacing the steps of the rows having NAs with the mean steps 
+#for each 5-min interval across the all data:
+mnsteps <- ddply(actvtData, c("interval"), function (x) apply(x[1], 2, mean))
+newData<- actvt
+newData[1:288, 1] <- mnsteps$steps 
+newData[2017:2304, 1]<- mnsteps$steps
+newData[8929:9216, 1]<- mnsteps$steps
+newData[9793:10080, 1]<- mnsteps$steps
+newData[11233:11520, 1]<- mnsteps$steps
+newData[11521:11808, 1]<- mnsteps$steps
+newData[12673:12960, 1]<- mnsteps$steps
+newData[17281:17568, 1]<- mnsteps$steps
+sum(is.na(newData)) # There is no NA.
+#Calculating the sum of steps related to each day:
+newsm<- ddply(newData, c("date"), function (x) apply(x[1], 2, sum))
+
+#Creating the histogram of the total number of steps taken each day
+#This histogram is slightly different from the previous one which was  
+#created before filling the NAs. This histogram has higher frequency around mean steps: 
+hist(newsm$steps, xlab= "Total Number of Steps/Day", 
+     main="Total Number of Steps Taken Each Day", 
+     col= "blue")
+
+#obtaining the mean of total steps after filling in all NAs:
+#the mean is exactly the same as before.
+#Imputing missing data did not have majore impact on 
+#the estimates of the total daily number of steps.
+mean(newsm$steps) # 10766.19
+#obtaining the median of total steps after filling in all NAs:
+#The median was increased very slightly and is now equal to the mean.
+#Imputing missing data did not have majore impact on 
+#the estimates of the total daily number of steps.
+median(newsm$steps) # 10766.19
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
